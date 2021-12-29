@@ -7,15 +7,10 @@
 #include <iostream>
 using std::string;
 using std::ostream;
+using std::endl;
+using std::cout;
 
-ostream& operator<<(ostream& os, const Skill skill);
-bool operator< (const Skill first_skill, const Skill second_skill);
-bool operator> (const Skill first_skill, const Skill second_skill);
-bool operator== (const Skill first_skill, const Skill second_skill);
-bool operator<= (const Skill first_skill, const Skill second_skill);
-bool operator>= (const Skill first_skill, const Skill second_skill);
-bool operator!= (const Skill first_skill, const Skill second_skill);
-
+namespace mtm{
 class Skill
 {
     int skill_id;
@@ -23,41 +18,38 @@ class Skill
     int points_to_acquire_skill;
 
 public:
-    Skill(int skill_id, int skill_name, int points_to_acquire_skill, int current_skill_strength);
-    //need const constructor?
-    //need default constructor?
-    //need copy constructor?
-    ~Skill();
-    int getId();
-    string getName();
-    int getRequiredPoints();
-    Skill operator++ (const int points); //this way we will only support right side ++, returns a class skill with updated points_to_acquire_skill.
-    Skill operator+= (const int points); // if the input was negative number need to throw an exception.
-    //האם צריך לתמוך בשרשור כמו בתרגול 7 שקופית 45?
-    //exception!
-    Skill operator+ (const int points); //if recieved negative number need to throw exception
-    //exception!
-    //what does this operator+ do?
+    //constructors
+    Skill(int skill_id, string skill_name, int points_to_acquire_skill);
+    Skill(const Skill& skill);
+    ~Skill() = default;
+
+    //getters
+    int getId() const;
+    string getName() const;
+    int getRequiredPoints() const;
+
+
+    //overloaded operators
+    Skill& operator+= (const int points); 
+    Skill& operator= (const Skill& skill);
+    void operator++(int);
+    bool operator< (const Skill skill_to_compare_with);
+    bool operator> (const Skill skill_to_compare_with);
+    bool operator== (const Skill skill_to_compare_with);
+    bool operator<= (const Skill skill_to_compare_with);
+    bool operator>= (const Skill skill_to_compare_with);
+    bool operator!= (const Skill skill_to_compare_with);
+
+    //class friends
     friend ostream& operator<< (ostream& os, const Skill skill);
-    friend bool operator< (const Skill first_skill, const Skill second_skill);
-    friend bool operator> (const Skill first_skill, const Skill second_skill);
-    friend bool operator== (const Skill first_skill, const Skill second_skill);
-    friend bool operator<= (const Skill first_skill, const Skill second_skill);
-    friend bool operator>= (const Skill first_skill, const Skill second_skill);
-    friend bool operator!= (const Skill first_skill, const Skill second_skill);
-    
+
+
 };
 
-
-
-
-
-
-
-
-
-
-
+ostream& operator<<(ostream& os, const Skill skill);
+Skill operator+ (const Skill& skill, const int points); // needs to be a symmetrical operator
+Skill operator+ (const int points, const Skill& skill); // needs to be a symmetrical operator
 
 
 #endif /* SKILL_H_ */
+}
