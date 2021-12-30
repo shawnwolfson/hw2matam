@@ -1,6 +1,6 @@
 #include "Skill.h"
+#include "exceptions.h"
 using namespace mtm;
-
 
 Skill::Skill(int skill_id, string skill_name, int points_to_acquire_skill):
         skill_id(skill_id), skill_name(skill_name), points_to_acquire_skill(points_to_acquire_skill)
@@ -63,7 +63,7 @@ Skill& Skill::operator+=(const int points) //think of exception
 {
     if(points < 0)
     {
-        throw -1; //Exception::NegativePoints();
+        throw Exception::NegativePoints();
     }
     points_to_acquire_skill += points;
     return *this;
@@ -73,7 +73,7 @@ Skill mtm::operator+ (const Skill& skill, const int points) //think of exception
 {
     if(points < 0)
     {
-        throw -1; //Exception::NegativePoints();
+        throw Exception::NegativePoints(); 
     }
     Skill temp_skill(skill.getId(), skill.getName(), (skill.getRequiredPoints() + points));
     return temp_skill;
@@ -83,7 +83,7 @@ Skill mtm::operator+ (const int points, const Skill& skill) //think of exception
 {
     if(points < 0)
     {
-        throw -1; //Exception::NegativePoints();
+        throw Exception::NegativePoints();
     }
     Skill result = skill + points;
     return result;
@@ -142,11 +142,31 @@ int main()
     
     points1 = skill1.getRequiredPoints();
     cout << "third points1 = " << points1 << endl;
-
     skill1 = 1 + skill2;
     points1 = skill1.getRequiredPoints();
     cout << "fourth points1 = " << points1 << endl;
+    try{
+        skill1 + -6;
+    }
+    catch (Exception::NegativePoints)
+    {
+        cout << "catch1" << endl;
+    }
+    try{
+        -6 + skill1;
+    }
+    catch (Exception::NegativePoints)
+    {
+        cout << "catch2" << endl;
+    }
+    try{
+        skill1 += -6;
+    }
+    catch (Exception::NegativePoints)
+    {
+        cout << "catch3" << endl;
+    }
+
     return 0;
 }
-
 
