@@ -50,6 +50,6 @@ ostream& operator<<(ostream& os, const Skill skill);
 Skill operator+ (const Skill& skill, const int points); // needs to be a symmetrical operator
 Skill operator+ (const int points, const Skill& skill); // needs to be a symmetrical operator
 
-
-#endif /* SKILL_H_ */
 }
+#endif /* SKILL_H_ */
+
