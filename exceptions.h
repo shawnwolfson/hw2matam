@@ -1,3 +1,6 @@
+#ifndef EXCEPTIONS_H_
+#define EXCEPTIONS_H_
+
 #include <exception>
 
 namespace mtm{
@@ -9,3 +12,5 @@ class NegativePoints : public Exception
 {};
 
 }
+
+#endif /* EXCEPTIONS_H_ */
