@@ -2,21 +2,21 @@
 #include "exceptions.h"
 using namespace mtm;
 
-Skill::Skill(int skill_id, string skill_name, int points_to_acquire_skill):
-        skill_id(skill_id), skill_name(skill_name), points_to_acquire_skill(points_to_acquire_skill)
+Skill::Skill(int id, string name, int points_to_acquire_skill):
+        id(id), name(name), points_to_acquire_skill(points_to_acquire_skill)
         {}
 
-Skill::Skill(const Skill& skill) : skill_id(skill.skill_id), skill_name(skill.skill_name), points_to_acquire_skill(skill.points_to_acquire_skill)
+Skill::Skill(const Skill& skill) : id(skill.id), name(skill.name), points_to_acquire_skill(skill.points_to_acquire_skill)
         {}
 
 int Skill::getId() const
 {
-    return this->skill_id;
+    return this->id;
 }
 
 string Skill::getName() const
 {
-    return this->skill_name;
+    return this->name;
 }
 
 int Skill::getRequiredPoints() const
@@ -24,32 +24,32 @@ int Skill::getRequiredPoints() const
     return this->points_to_acquire_skill;
 }
 
-bool Skill::operator< (const Skill skill_to_compare_with)
+bool Skill::operator< (const Skill skill_to_compare_with) const
 {
     return (this->getId() < skill_to_compare_with.getId() ? true : false);
 }
 
-bool Skill::operator> (const Skill skill_to_compare_with)
+bool Skill::operator> (const Skill skill_to_compare_with) const
 {
-    return !(operator< (skill_to_compare_with));
+    return (this->getId() > skill_to_compare_with.getId() ? true : false);
 }
 
-bool Skill::operator== (const Skill skill_to_compare_with)
+bool Skill::operator== (const Skill skill_to_compare_with) const
 {
     return (this->getId() == skill_to_compare_with.getId()) ? true : false;
 }
 
-bool Skill::operator<= (const Skill skill_to_compare_with)
+bool Skill::operator<= (const Skill skill_to_compare_with) const
 {
     return (operator< (skill_to_compare_with)) || (operator== (skill_to_compare_with));
 }
 
-bool Skill::operator>= (const Skill skill_to_compare_with)
+bool Skill::operator>= (const Skill skill_to_compare_with) const
 {
     return (operator> (skill_to_compare_with)) || (operator== (skill_to_compare_with));
 }
 
-bool Skill::operator!= (const Skill skill_to_compare_with)
+bool Skill::operator!= (const Skill skill_to_compare_with) const
 {
     return !(operator== (skill_to_compare_with));
 }
@@ -59,31 +59,31 @@ void Skill::operator++ (int)
     this->points_to_acquire_skill += 1;
 }
 
-Skill& Skill::operator+=(const int points) //think of exception
+Skill& Skill::operator+=(const int points) 
 {
     if(points < 0)
     {
-        throw Exception::NegativePoints();
+        throw NegativePoints();
     }
     points_to_acquire_skill += points;
     return *this;
 }
 
-Skill mtm::operator+ (const Skill& skill, const int points) //think of exception
+Skill mtm::operator+ (const Skill& skill, const int points) 
 {
     if(points < 0)
     {
-        throw Exception::NegativePoints(); 
+        throw NegativePoints(); 
     }
     Skill temp_skill(skill.getId(), skill.getName(), (skill.getRequiredPoints() + points));
     return temp_skill;
 }
 
-Skill mtm::operator+ (const int points, const Skill& skill) //think of exception
+Skill mtm::operator+ (const int points, const Skill& skill) 
 {
     if(points < 0)
     {
-        throw Exception::NegativePoints();
+        throw NegativePoints();
     }
     Skill result = skill + points;
     return result;
@@ -101,7 +101,7 @@ Skill& Skill::operator= (const Skill& skill)
 
 ostream& mtm::operator<< (ostream& os, const Skill skill)
 {
-    return os << skill.skill_name << endl;
+    return os << skill.name << endl;
 }
 
 
@@ -148,25 +148,24 @@ int main()
     try{
         skill1 + -6;
     }
-    catch (Exception::NegativePoints)
+    catch (NegativePoints)
     {
         cout << "catch1" << endl;
     }
     try{
         -6 + skill1;
     }
-    catch (Exception::NegativePoints)
+    catch (NegativePoints)
     {
         cout << "catch2" << endl;
     }
     try{
         skill1 += -6;
     }
-    catch (Exception::NegativePoints)
+    catch (NegativePoints)
     {
         cout << "catch3" << endl;
     }
 
     return 0;
 }
-
