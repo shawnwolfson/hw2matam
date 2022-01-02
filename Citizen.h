@@ -35,7 +35,7 @@ public:
     Citizen& operator=(const Citizen& citizen) = default;
     bool Citizen::operator<(const Citizen& citizen) const;
     bool Citizen::operator>(const Citizen& citizen) const;
-    bool Citizen::operator==(const Citizen& citizen) const
+    bool Citizen::operator==(const Citizen& citizen) const;
     bool Citizen::operator<=(const Citizen& citizen) const;
     bool Citizen::operator>=(const Citizen& citizen) const;
     bool Citizen::operator!=(const Citizen& citizen) const;
@@ -44,5 +44,6 @@ public:
     virtual ostream& printLong(ostream& os, const Citizen& citizen);
     virtual Citizen* clone() const = 0;
 
-
+    };
+}
 #endif /* CITIZEN_H_*/
