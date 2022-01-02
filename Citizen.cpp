@@ -1,76 +1,49 @@
-#include "Citizen.h"
-using namespace mtm;
+#ifndef CITIZEN_H_
+#define CITIZEN_H_
 
-//**c'tors, d'tor**//
-Citizen::Citizen(int id, string first_name, string last_name, int birth_year) : 
-    id(id), first_name(first_name), last_name(last_name), birth_year(birth_year)
-{}
+#include <string>
+#include <iostream>
+using std::string;
+using std::ostream;
+using std::endl;
+using std::cout;
 
-Citizen::Citizen(const Citizen &citizen) : 
-    id(citizen.id), first_name(citizen.first_name), last_name(citizen.last_name), birth_year(citizen.birth_year)
-{}
-
-//**getters**//
-int Citizen::getId() const
+namespace mtm
 {
-    return this->id;
+
+class Citizen
+{
+    int id;
+    string first_name;
+    string last_name;
+    int birth_year;
+
+public:
+    //c'tors, d'tor
+    Citizen(int id, string first_name, string last_name, int birth_year);
+    Citizen() = default;
+    Citizen(const Citizen& citizen);
+    virtual ~Citizen() {}
+
+    //getters
+    int getId() const;
+    string getFirstName() const;
+    string getLastName() const;
+    int getBirthYear() const;
+
+    //operators
+    Citizen& operator=(const Citizen& citizen) = default;
+    bool Citizen::operator<(const Citizen& citizen) const;
+    bool Citizen::operator>(const Citizen& citizen) const;
+    bool Citizen::operator==(const Citizen& citizen) const;
+    bool Citizen::operator<=(const Citizen& citizen) const;
+    bool Citizen::operator>=(const Citizen& citizen) const;
+    bool Citizen::operator!=(const Citizen& citizen) const;
+
+    virtual ostream& printShort(ostream& os, const Citizen& citizen);
+    virtual ostream& printLong(ostream& os, const Citizen& citizen);
+    virtual Citizen* clone() const = 0;
+
+    };
 }
-
-string Citizen::getFirstName() const
-{
-    return this->first_name;
-}
-
-string Citizen::getLastName() const
-{
-    return this->last_name;
-}
-
-string Citizen::getBirthYear() const
-{
-    return this->birth_year;
-}
-
-//**operators**//
-/*Citizen& operator=(const Citizen& citizen)
-{
-    if(this == &citizen) {
-        return *this;
-    }
-    id = citizen.id;
-    first_name = citizen.first_name;
-    last_name = citizen.last_name;
-    birth_year = citizen.birth_year;
-
-    return *this;
-}*/
-
-bool Citizen::operator<(const Citizen& citizen) const
-{
-    return ((this->getId() < citizen.getId) ? true : false);
-}
-
-bool Citizen::operator>(const Citizen& citizen) const
-{
-    return ((this->getId() > citizen.getId) ? true : false);
-}
-
-bool Citizen::operator==(const Citizen& citizen) const
-{
-    return ((this->getId() == citizen.getId) ? true : false);
-}
-
-bool Citizen::operator<=(const Citizen& citizen) const
-{
-    return ((this->getId() <= citizen.getId) ? true : false);
-}
-
-bool Citizen::operator>=(const Citizen& citizen) const
-{
-    return ((this->getId() >= citizen.getId) ? true : false);
-}
-
-bool Citizen::operator!=(const Citizen& citizen) const
-{
-    return ((this->getId() != citizen.getId) ? true : false);
-}
+#endif /* CITIZEN_H_*/
