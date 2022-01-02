@@ -11,6 +11,13 @@ class Exception : public std::exception
 class NegativePoints : public Exception
 {};
 
+class EmployeeAlreadyHired : public Exception
+{};
+
+class EmployeeIsNotHired : public Exception
+{};
+
+
 }
 
 #endif /* EXCEPTIONS_H_ */
