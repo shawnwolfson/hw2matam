@@ -3,6 +3,8 @@
 
 #include <string>
 #include <iostream>
+#include <set>
+using std::set;
 using std::string;
 using std::ostream;
 using std::endl;
@@ -33,17 +35,17 @@ public:
 
     //operators
     Citizen& operator=(const Citizen& citizen) = default;
-    bool Citizen::operator<(const Citizen& citizen) const;
-    bool Citizen::operator>(const Citizen& citizen) const;
-    bool Citizen::operator==(const Citizen& citizen) const;
-    bool Citizen::operator<=(const Citizen& citizen) const;
-    bool Citizen::operator>=(const Citizen& citizen) const;
-    bool Citizen::operator!=(const Citizen& citizen) const;
+    bool operator<(const Citizen& citizen) const;
+    bool operator>(const Citizen& citizen) const;
+    bool operator==(const Citizen& citizen) const;
+    bool operator<=(const Citizen& citizen) const;
+    bool operator>=(const Citizen& citizen) const;
+    bool operator!=(const Citizen& citizen) const;
 
-    virtual ostream& printShort(ostream& os, const Citizen& citizen);
-    virtual ostream& printLong(ostream& os, const Citizen& citizen);
+    virtual ostream& printShort(ostream& os);
+    virtual ostream& printLong(ostream& os);
     virtual Citizen* clone() const = 0;
-
+    virtual bool findCitizenInGroupById(set<Citizen> group, const int id);
     };
 }
 #endif /* CITIZEN_H_*/
