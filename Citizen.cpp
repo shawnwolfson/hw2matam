@@ -73,16 +73,3 @@ bool Citizen::operator!=(const Citizen& citizen) const
 {
     return ((this->getId() != citizen.getId()) ? true : false);
 }
-
-bool Citizen::findCitizenInGroupById(set<Citizen> group, const int id)
-{
-    set<Citizen>::iterator iterator;
-    for(iterator = group.begin(); iterator != group.end(); ++iterator)
-    {
-        if((*iterator).getId() == id)
-        {
-            return true;
-        }
-    }
-    return false;
-}
