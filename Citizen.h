@@ -46,6 +46,8 @@ public:
     virtual ostream& printShort(ostream& os);
     virtual ostream& printLong(ostream& os);
     virtual Citizen* clone() const = 0;
+
+    template<class T> friend bool findCitizenInGroupById(set<T> group, const int id);
 };
 
     template<class T>
