@@ -1,29 +1,20 @@
 #include "Manager.h"
 #include "exceptions.h"
 using namespace mtm;
+using std::set;
 
-bool findEmployeeById(std::set<Employee> employee_group, int id) //think of clone
+bool findEmployeeById(std::set<Employee> employee_group, int id) 
 {
-    std::set<Employee>::iterator iterator;
+    set<Employee>::iterator iterator;
     for(iterator = employee_group.begin(); iterator != employee_group.end(); ++iterator)
     {
-        if(iterator.getId() == id)
+        if((*iterator).getId() == id)
         {
             return true;
         }
     }
     return false;
 }
-
-Employee* getEmployeeById(std::set<Employee> employee_group, int id)
-{
-    std::set<Employee>::iterator iterator;
-    for(iterator = employee_group.begin(); iterator != employee_group.end(); ++iterator)
-    {
-        break;
-    }
-}
-
 
 
 Manager::Manager(int id, string first_name, string last_name, int birth_year, double score, double salary, set<Employee> employee_group):
@@ -46,11 +37,19 @@ void Manager::addEmployee(Employee* employee)
     employee_group.insert(*employee);
 }
 
-void Manager::removeEmployee(int id) //comeback
+void Manager::removeEmployee(int id) 
 {
     if(!findEmployeeById(this->employee_group, id))
     {
         throw EmployeeIsNotHired();
+    }
+    set<Employee>::iterator iterator; // if we are here, employee must be in the group
+    for(iterator = employee_group.begin(); iterator != employee_group.end(); ++iterator) 
+    {
+        if((*iterator).getId() == id)
+        {
+            this->employee_group.erase(*iterator);
+        }
     }
 }
 
@@ -68,7 +67,10 @@ ostream& Manager::printShort(ostream& os)
 {
     os << this->getFirstName() << " " << this->getLastName() << endl;
     os << "Salary: " << this->salary << endl;
+    return os;
 }
+
+
 ostream& Manager::printLong(ostream& os)
 {
     os << this->getFirstName() << " " << this->getLastName() << endl;
@@ -78,13 +80,22 @@ ostream& Manager::printLong(ostream& os)
     std::set<Employee>::iterator iterator;
     for(iterator = this->employee_group.begin(); iterator != this->employee_group.end(); ++iterator)
     {
+
         //clone?
         printShort(os); // what will happen?
         os << endl; //needed?
     }
+    return os;
 }
 
-Citizen* Manager::clone() const override
+Manager* Manager::clone() const //is not complete
 {
+    Manager new_manager;
+    return &new_manager;
+}
 
+
+int main()
+{
+    return 0;
 }
