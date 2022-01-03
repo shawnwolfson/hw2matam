@@ -42,10 +42,24 @@ public:
     bool operator>=(const Citizen& citizen) const;
     bool operator!=(const Citizen& citizen) const;
 
+    
     virtual ostream& printShort(ostream& os);
     virtual ostream& printLong(ostream& os);
     virtual Citizen* clone() const = 0;
-    virtual bool findCitizenInGroupById(set<Citizen> group, const int id);
-    };
+};
+
+    template<class T>
+    bool findCitizenInGroupById(set<T> group, const int id)
+    {  
+        typename set<T>::iterator iterator;
+        for(iterator = group.begin(); iterator != group.end(); ++iterator)
+        {
+            if((*iterator).getId() == id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 #endif /* CITIZEN_H_*/
