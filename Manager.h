@@ -2,13 +2,11 @@
 #define MANAGER_H_
 
 #include <string>
-#include <set>
 #include "Employee.h"
 #include "Citizen.h"
 
 
 using std::string;
-using std::set;
 
 
 namespace mtm {
@@ -31,11 +29,11 @@ class Manager : public Citizen
         void setSalary(int raise);
 
         //methods
-        void addEmployee(Employee* employee); //exception
-        void removeEmployee(int id); //exception
+        void addEmployee(Employee* employee); 
+        void removeEmployee(int id);
         ostream& printShort(ostream& os);
         ostream& printLong(ostream& os);
-        Citizen* clone() const override;
+        Manager* clone() const override;
 
         //operators
         Manager& operator= (const Manager& manager);
