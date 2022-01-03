@@ -3,7 +3,6 @@
 
 #include <string>
 #include "Employee.h"
-#include "Citizen.h"
 
 
 using std::string;
@@ -13,28 +12,33 @@ namespace mtm {
 
 class Manager : public Citizen
 {
-    double salary;
     double score;
+    double salary;
+    bool hired;
     set<Employee> employee_group;
-
+    
     public:
         //c'tors and d'tors
         Manager() = default;
-        Manager(int id, string first_name, string last_name, int birth_year, double score = 0, double salary = 0, set<Employee> employee_group = {});
+        Manager(int id, string first_name, string last_name, int birth_year, double score = 0, double salary = 0, bool hired = false, 
+                set<Employee> employee_group = {}); 
         Manager(const Manager& mananger);
         ~Manager() = default;
 
         //getters and setters
         double getSalary();
         void setSalary(int raise);
+        bool isHired();
 
         //methods
         void addEmployee(Employee* employee); 
         void removeEmployee(int id);
-        ostream& printShort(ostream& os);
-        ostream& printLong(ostream& os);
         Manager* clone() const override;
 
+        //overriden methods
+        ostream& printShort(ostream& os) override;
+        ostream& printLong(ostream& os) override;
+        
         //operators
         Manager& operator= (const Manager& manager);
         
@@ -43,3 +47,7 @@ class Manager : public Citizen
 
 }
 #endif /* MANAGER_H_ */
+
+
+
+
