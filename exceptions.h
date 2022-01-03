@@ -17,6 +17,17 @@ class EmployeeAlreadyHired : public Exception
 class EmployeeIsNotHired : public Exception
 {};
 
+class EmployeeNotSelected : public Exception
+{};
+
+class ManagerIsNotHired : public Exception
+{};
+
+class ManagerAlreadyHired : public Exception
+{};
+
+class CanNotHireManager : public Exception
+{};
 
 }
 
