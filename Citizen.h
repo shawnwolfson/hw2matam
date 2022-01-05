@@ -7,8 +7,6 @@
 using std::set;
 using std::string;
 using std::ostream;
-using std::endl;
-using std::cout;
 
 namespace mtm
 {
@@ -24,8 +22,8 @@ public:
     //c'tors, d'tor
     Citizen(int id, string first_name, string last_name, int birth_year);
     Citizen() = default;
-    Citizen(const Citizen& citizen);
-    virtual ~Citizen() {}
+    Citizen(const Citizen& citizen) = default;
+    virtual ~Citizen() = default;
 
     //getters
     int getId() const;
@@ -42,9 +40,8 @@ public:
     bool operator>=(const Citizen& citizen) const;
     bool operator!=(const Citizen& citizen) const;
 
-    
-    virtual ostream& printShort(ostream& os);
-    virtual ostream& printLong(ostream& os);
+    virtual ostream& printShort(ostream& os) = 0;
+    virtual ostream& printLong(ostream& os) = 0;
     virtual Citizen* clone() const = 0;
 
     template<class T> friend bool findCitizenInGroupById(set<T> group, const int id);
@@ -64,4 +61,4 @@ public:
         return false;
     }
 }
-#endif /* CITIZEN_H_*/
+#endif /* CITIZEN_H_ */
