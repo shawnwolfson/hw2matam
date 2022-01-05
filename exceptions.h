@@ -29,6 +29,15 @@ class ManagerAlreadyHired : public Exception
 class CanNotHireManager : public Exception
 {};
 
+class CanNotLearnSkill : public Exception
+{};
+
+class SkillAlreadyLearned : public Exception
+{};
+
+class DidNotLearnSkill : public Exception
+{};
+
 }
 
 #endif /* EXCEPTIONS_H_ */
