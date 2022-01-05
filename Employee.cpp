@@ -1,9 +1,109 @@
+#include "skill.h"
 #include "Employee.h"
+#include "exceptions.h"
+using std::endl;
+using std::cout;
 using namespace mtm;
 
-Employee::Employee(int id, string first_name, string last_name, int birth_year, int salary, int score) : 
-    Citizen(id, first_name, last_name, birth_year), salary(salary), score(score)
+//**c'tors, d'tor**//
+Employee::Employee(int id, string first_name, string last_name, int birth_year) : 
+    Citizen(id, first_name, last_name, birth_year), salary(0), score(0), skill_set()
 {}
 
-Employee::Employee(const Employee& employee) : 
-    Citizen(Employee& employee), salary(employee.salary), score(employee.score)
+//**getters**//
+int Employee::getSalary() const
+{
+    return salary;
+}
+
+int Employee::getScore() const
+{
+    return score;
+}
+
+//**member functions**//
+void Employee::learnSkill(const Skill skill)
+{
+    if (score < skill.getRequiredPoints()) {
+        throw CanNotLearnSkill();
+    }
+    std::set<Skill>::iterator it;
+    std::pair<std::set<Skill>::iterator,bool> set_result;
+    set_result = skill_set.insert(skill);
+    if (set_result.second == false)
+    {
+        throw SkillAlreadyLearned();
+    }
+
+}
+
+void Employee::forgetSkill(const int skill_id)
+{
+    Skill temp(skill_id, " ", 0);
+    unsigned int set_result = skill_set.erase(temp); /// לבדוק אם זה שימוש נכון בערך החזרה
+    if (set_result != 1) {
+        throw DidNotLearnSkill();
+    }
+}
+
+bool Employee::hasSkill(const int skill_id)
+{
+    Skill temp(skill_id, " ", 0);
+    std::set<Skill>::iterator it;
+    it = skill_set.find(temp);
+    if (it != skill_set.end()) {
+        return true;
+    }
+    return false;
+}
+
+void Employee::setSalary(const int wage)
+{
+    salary += wage;
+}
+
+void Employee::setScore(const int points)
+{
+    score += points;
+}
+
+//**prints**//
+ostream& Employee::printShort(ostream& os)
+{
+    os << getFirstName() << " " << getLastName() << endl << "Salary: " << salary << " "
+         << "Score: " << score << endl;
+    return os;
+}
+
+ostream& Employee::printLong(ostream& os)
+{
+    os << getFirstName() << " " << getLastName() << endl << "id - " << getId() << " " << "birth_year - " << getBirthYear() 
+        << endl << "Salary: " << salary << " " << "Score: " << score << " " << "Skills:" << endl;
+    std::set<Skill>::iterator it;
+    for (it=skill_set.begin(); it!=skill_set.end(); ++it) {
+        os << *it; 
+    }
+    os << endl;
+    return os;
+}
+
+Employee* Employee::clone() const
+{
+    return new Employee(*this);
+}
+
+
+using std::cout;
+using std::endl;
+int main() {
+Employee e1(1, "John", "Williams", 2002);
+Skill s1(1,"C++",0);
+Skill s2(2, "Java", 0);
+e1.learnSkill(s1);
+e1.learnSkill(s2);
+cout << "Short_Print" << endl;
+e1.printShort(cout);
+cout << "Long Print" << endl;
+e1.printLong(cout);
+return 0;
+}
