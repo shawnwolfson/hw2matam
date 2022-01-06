@@ -43,22 +43,7 @@ public:
     virtual ostream& printShort(ostream& os) = 0;
     virtual ostream& printLong(ostream& os) = 0;
     virtual Citizen* clone() const = 0;
-
-    template<class T> friend bool findCitizenInGroupById(set<T> group, const int id);
 };
 
-    template<class T>
-    bool findCitizenInGroupById(set<T> group, const int id)
-    {  
-        typename set<T>::iterator iterator;
-        for(iterator = group.begin(); iterator != group.end(); ++iterator)
-        {
-            if((*iterator).getId() == id)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 }
 #endif /* CITIZEN_H_ */
