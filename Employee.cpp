@@ -5,7 +5,6 @@ using std::endl;
 using std::cout;
 using namespace mtm;
 
-//**c'tors, d'tor**//
 Employee::Employee(int id, string first_name, string last_name, int birth_year) : 
     Citizen(id, first_name, last_name, birth_year), salary(0), score(0), skill_set()
 {}
@@ -59,12 +58,20 @@ bool Employee::hasSkill(const int skill_id)
 
 void Employee::setSalary(const int wage)
 {
-    salary += wage;
+    if ((salary + wage) < 0) {
+        this->salary = 0;
+        return;
+    }
+    this->salary += wage;
 }
 
 void Employee::setScore(const int points)
 {
-    score += points;
+    if ((score + points) < 0) {
+        this->score = 0;
+        return;
+    }
+    this->score += points;
 }
 
 //**prints**//
@@ -77,10 +84,10 @@ ostream& Employee::printShort(ostream& os)
 
 ostream& Employee::printLong(ostream& os)
 {
-    os << getFirstName() << " " << getLastName() << endl << "id - " << getId() << " " << "birth_year - " << getBirthYear() 
+    os << getFirstName() << " " << getLastName() << endl << "id - " << getId() << " birth_year - " << getBirthYear() 
         << endl << "Salary: " << salary << " " << "Score: " << score << " " << "Skills:" << endl;
     std::set<Skill>::iterator it;
-    for (it=skill_set.begin(); it!=skill_set.end(); ++it) {
+    for (it = skill_set.begin(); it != skill_set.end(); ++it) {
         os << *it; 
     }
     os << endl;
@@ -90,20 +97,4 @@ ostream& Employee::printLong(ostream& os)
 Employee* Employee::clone() const
 {
     return new Employee(*this);
-}
-
-
-using std::cout;
-using std::endl;
-int main() {
-Employee e1(1, "John", "Williams", 2002);
-Skill s1(1,"C++",0);
-Skill s2(2, "Java", 0);
-e1.learnSkill(s1);
-e1.learnSkill(s2);
-cout << "Short_Print" << endl;
-e1.printShort(cout);
-cout << "Long Print" << endl;
-e1.printLong(cout);
-return 0;
 }
