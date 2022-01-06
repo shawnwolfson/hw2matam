@@ -3,7 +3,6 @@ using std::endl;
 using std::cout;
 using namespace mtm;
 
-//**c'tors, d'tor**//
 Citizen::Citizen(int id, string first_name, string last_name, int birth_year) : 
     id(id), first_name(first_name), last_name(last_name), birth_year(birth_year)
 {}
