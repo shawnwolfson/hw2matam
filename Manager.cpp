@@ -1,87 +1,91 @@
 #include "Manager.h"
 #include "exceptions.h"
+using std::endl;
 using namespace mtm;
 
+Manager::Manager(int id, string first_name, string last_name, int birth_year) : 
+    Citizen(id, first_name, last_name, birth_year), salary(0), employees_group()
+{}
 
-Manager::Manager(int id, string first_name, string last_name, int birth_year, double score, double salary, bool hired, set<Employee> employee_group):
-                 Citizen(id, first_name, last_name, birth_year), score(score), salary(salary), hired(hired) ,employee_group(employee_group) 
-                {}
-
-
-Manager::Manager(const Manager& manager):
-                Citizen(manager), salary(manager.salary), score(manager.score), hired(hired)
-                {
-                    employee_group = manager.employee_group;
-                }
+int Manager::getSalary() const
+{
+    return salary;
+}
 
 void Manager::addEmployee(Employee* employee)
 {
-    if(!((this->employee_group.find(*employee)) == (this->employee_group.end()))) //this means the employee is already in the group
-    {
+    unsigned int res = employees_group.count(employee);
+    if (res) {
         throw EmployeeAlreadyHired();
     }
-    employee_group.insert(*employee);
+
+    employees_group.insert(employee);
 }
 
-void Manager::removeEmployee(int id) 
+void Manager::removeEmployee(int id)
 {
-    if(!(mtm::findCitizenInGroupById<Employee>(this->employee_group, id)))
-    {
+    Employee temp(id, "", "", 0);
+    if (!employees_group.count(&temp)) {
         throw EmployeeIsNotHired();
     }
-    set<Employee>::iterator iterator; // if we are here, employee must be in the group
-    for(iterator = employee_group.begin(); iterator != employee_group.end(); ++iterator) 
-    {
-        if((*iterator).getId() == id)
-        {
-            this->employee_group.erase(*iterator);
-        }
+    employees_group.erase(&temp);
+}
+
+void Manager::setSalary(int wage)
+{
+    this->salary += wage;
+}
+
+void Manager::setEmployeeSalary(int emp_id, int wage)
+{
+    Employee temp(emp_id, "", "", 0);
+    unsigned int res = employees_group.count(&temp);
+    if (!res) {
+        throw EmployeeIsNotHired();
     }
+    std::set<Employee*>::iterator it;
+    it = employees_group.find(&temp);
+    (*it)->setSalary(wage - ((*it)->getSalary()));
 }
 
-double Manager::getSalary()
+int* Manager::getEmployeesId() const
 {
-    return this->salary;
+    set<Employee*>::iterator iterator;
+    int* id_array = new int[employees_group.size()];
+    int index = 0;
+    for(iterator = employees_group.begin(); iterator != employees_group.end(); iterator++)
+    {
+        id_array[index] = (*iterator)->getId();
+        ++index;
+    }
+    return id_array;
 }
-
-void Manager::setSalary(int raise)
-{
-    (this->salary) += raise;
-}
-
-bool Manager::isHired()
-{
-    return this->hired;
-}
-
+//**prints**//
 ostream& Manager::printShort(ostream& os)
 {
-    os << this->getFirstName() << " " << this->getLastName() << endl;
-    os << "Salary: " << this->salary << endl;
+    os << getFirstName() << " " << getLastName() << endl << "Salary: " << salary << " " << endl;
     return os;
 }
 
+ostream& printLongAux(ostream& os, Employee emp)
+{
+    os << emp.getFirstName() << " " << emp.getLastName() << endl 
+        << "Salary: " << emp.getSalary() << " " << "Score: " << emp.getScore() << endl;
+    return os;
+}
 
 ostream& Manager::printLong(ostream& os)
 {
-    os << this->getFirstName() << " " << this->getLastName() << endl;
-    os << "id - " << this->getId() << "birth_year = " << this->getBirthYear() << endl;
-    os << "Salary: " << this->salary << endl;
-    os << "Employees:" << endl;
-    std::set<Employee>::iterator iterator;
-    for(iterator = this->employee_group.begin(); iterator != this->employee_group.end(); ++iterator)
-    {
-
-        //clone?
-        printShort(os); // what will happen?
-        os << endl; //needed?
+    os << getFirstName() << " " << getLastName() << endl << "id - " << getId() << " birth_year - " << getBirthYear() 
+        << endl << "Salary: " << salary << endl << "Employees:" << endl;
+    std::set<Employee*>::iterator it;
+    for (it=employees_group.begin(); it!=employees_group.end(); ++it) {
+        printLongAux(os, (*(*it)));
     }
     return os;
 }
 
-Manager* Manager::clone() const //is not complete
+Manager* Manager::clone() const
 {
-    Manager new_manager;
-    return &new_manager;
+    return new Manager(*this);
 }
-
