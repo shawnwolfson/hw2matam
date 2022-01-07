@@ -1,53 +1,53 @@
 #ifndef MANAGER_H_
 #define MANAGER_H_
 
-#include <string>
+#include "Citizen.h"
 #include "Employee.h"
-
-
+#include <set>
+#include <iostream>
+using std::ostream;
 using std::string;
+using std::set;
 
+namespace mtm
+{
 
-namespace mtm {
+//*funcor*//
+class setCompareFunction
+{
+public:
+    bool operator()(const Employee* emp1, const Employee* emp2) const {
+        return ((*emp1).getId() < (*emp2).getId());
+    }
+};
+
 
 class Manager : public Citizen
 {
-    double score;
-    double salary;
-    bool hired;
-    set<Employee> employee_group;
-    
-    public:
-        //c'tors and d'tors
-        Manager() = default;
-        Manager(int id, string first_name, string last_name, int birth_year, double score = 0, double salary = 0, bool hired = false, 
-                set<Employee> employee_group = {}); 
-        Manager(const Manager& mananger);
-        ~Manager() = default;
+    int salary;
+    set<Employee*, setCompareFunction> employees_group;
 
-        //getters and setters
-        double getSalary();
-        void setSalary(int raise);
-        bool isHired();
+public:
+    //c'tors, d'tor
+    Manager(int id, string first_name, string last_name, int birth_year);
+    Manager(const Manager& manager) = default;
+    ~Manager() = default;
 
-        //methods
-        void addEmployee(Employee* employee); 
-        void removeEmployee(int id);
-        Manager* clone() const override;
+    int getSalary() const;
+    void setSalary(int wage);
+    void addEmployee(Employee* employee);
+    void removeEmployee(int id);
+    void setEmployeeSalary(int emp_id, int wage);
+    int* getEmployeesId() const;
 
-        //overriden methods
-        ostream& printShort(ostream& os) override;
-        ostream& printLong(ostream& os) override;
-        
-        //operators
-        Manager& operator= (const Manager& manager);
-        
+
+    ostream& printShort(ostream& os) override;
+    ostream& printLong(ostream& os) override;
+    Manager* clone() const;
 
 };
 
+
+
 }
 #endif /* MANAGER_H_ */
-
-
-
-
