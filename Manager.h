@@ -38,10 +38,13 @@ public:
     void addEmployee(Employee* employee);
     void removeEmployee(int id);
     void setEmployeeSalary(int emp_id, int wage);
+    int* getEmployeesId() const;
+
 
     ostream& printShort(ostream& os) override;
     ostream& printLong(ostream& os) override;
     Manager* clone() const;
+
 };
 
 
