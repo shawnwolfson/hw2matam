@@ -95,6 +95,8 @@ Skill& Skill::operator= (const Skill& skill)
     {
         return *this;
     }
+    id = skill.getId();
+    name = skill.getName();
     points_to_acquire_skill = skill.points_to_acquire_skill;
     return *this;
 }
@@ -105,7 +107,7 @@ ostream& mtm::operator<< (ostream& os, const Skill skill)
 }
 
 
-int main()
+/*int main()
 {
     Skill skill1(1, "fire", 0);
     Skill skill2(2, "water", 3);
@@ -168,4 +170,4 @@ int main()
     }
 
     return 0;
-}
+}*/
