@@ -4,10 +4,7 @@ using namespace mtm;
 
 Skill::Skill(int id, string name, int points_to_acquire_skill):
         id(id), name(name), points_to_acquire_skill(points_to_acquire_skill)
-        {}
-
-Skill::Skill(const Skill& skill) : id(skill.id), name(skill.name), points_to_acquire_skill(skill.points_to_acquire_skill)
-        {}
+{}
 
 int Skill::getId() const
 {
@@ -95,8 +92,6 @@ Skill& Skill::operator= (const Skill& skill)
     {
         return *this;
     }
-    id = skill.getId();
-    name = skill.getName();
     points_to_acquire_skill = skill.points_to_acquire_skill;
     return *this;
 }
@@ -106,68 +101,3 @@ ostream& mtm::operator<< (ostream& os, const Skill skill)
     return os << skill.name << endl;
 }
 
-
-/*int main()
-{
-    Skill skill1(1, "fire", 0);
-    Skill skill2(2, "water", 3);
-    cout << skill1;
-    cout << skill2;
-    int id = skill1.getId();
-    cout << "first id = " << id <<endl;
-    string name = skill1.getName();
-    cout << "first name = "<< name <<endl;
-    int points1 = skill1.getRequiredPoints();
-    cout << "first points1 = "<< points1 <<endl;
-    bool false1 = skill1 > skill2;
-    bool true1 = skill1 < skill2;
-    bool false2 = (skill1 == skill2);
-    bool false3 = skill1 >= skill2;
-    bool true2 = skill1 <= skill2;
-    bool true3 = skill1 != skill2;
-    cout << "false1 = " << false1 <<endl;
-    cout << "false2 = " << false2 <<endl;
-    cout << "false3 = " << false3 <<endl;
-    cout << "true1 = " << true1 <<endl;
-    cout << "true2 = " << true2 <<endl;
-    cout << "true3 = " << true3 <<endl;
-
-    skill1++;
-     
-    points1 = skill1.getRequiredPoints();
-    cout << "second points1 = "<< points1 <<endl;
-    skill2 += 2;
-    int points2 = skill2.getRequiredPoints();
-    cout << "second points2 = " << points2 << endl;
-
-    skill1 = skill2 + 1;
-    
-    points1 = skill1.getRequiredPoints();
-    cout << "third points1 = " << points1 << endl;
-    skill1 = 1 + skill2;
-    points1 = skill1.getRequiredPoints();
-    cout << "fourth points1 = " << points1 << endl;
-    try{
-        skill1 + -6;
-    }
-    catch (NegativePoints)
-    {
-        cout << "catch1" << endl;
-    }
-    try{
-        -6 + skill1;
-    }
-    catch (NegativePoints)
-    {
-        cout << "catch2" << endl;
-    }
-    try{
-        skill1 += -6;
-    }
-    catch (NegativePoints)
-    {
-        cout << "catch3" << endl;
-    }
-
-    return 0;
-}*/
