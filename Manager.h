@@ -5,6 +5,7 @@
 #include "Employee.h"
 #include <set>
 #include <iostream>
+
 using std::ostream;
 using std::string;
 using std::set;
@@ -20,7 +21,6 @@ public:
         return ((*emp1).getId() < (*emp2).getId());
     }
 };
-
 
 class Manager : public Citizen
 {
@@ -38,16 +38,11 @@ public:
     void addEmployee(Employee* employee);
     void removeEmployee(int id);
     void setEmployeeSalary(int emp_id, int wage);
-    int* getEmployeesId() const;
-
 
     ostream& printShort(ostream& os) override;
     ostream& printLong(ostream& os) override;
     Manager* clone() const;
-
 };
-
-
 
 }
 #endif /* MANAGER_H_ */
