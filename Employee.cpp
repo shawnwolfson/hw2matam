@@ -83,7 +83,11 @@ ostream& Employee::printShort(ostream& os)
 ostream& Employee::printLong(ostream& os)
 {
     os << getFirstName() << " " << getLastName() << endl << "id - " << getId() << " birth_year - " << getBirthYear()
-        << endl << "Salary: " << salary << " " << "Score: " << score << " " << "Skills:" << endl;
+        << endl << "Salary: " << salary << " " << "Score: " << score;
+    if (!skill_set.empty())
+    {
+        os << " Skills:" << endl;
+    }
     std::set<Skill>::iterator it;
     for (it = skill_set.begin(); it != skill_set.end(); ++it) {
         os << *it; 
