@@ -65,7 +65,11 @@ ostream& printLongAux(ostream& os, Employee emp)
 ostream& Manager::printLong(ostream& os)
 {
     os << getFirstName() << " " << getLastName() << endl << "id - " << getId() << " birth_year - " << getBirthYear() 
-        << endl << "Salary: " << salary << endl << "Employees:" << endl;
+        << endl << "Salary: " << salary << endl;
+    if (!employees_group.empty())
+    {
+        os << "Employees:" << endl;
+    }
     std::set<Employee*>::iterator it;
     for (it=employees_group.begin(); it!=employees_group.end(); ++it) {
         printLongAux(os, (*(*it)));
