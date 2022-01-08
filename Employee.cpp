@@ -9,7 +9,6 @@ Employee::Employee(int id, string first_name, string last_name, int birth_year) 
     Citizen(id, first_name, last_name, birth_year), salary(0), score(0), skill_set()
 {}
 
-//**getters**//
 int Employee::getSalary() const
 {
     return salary;
@@ -20,7 +19,6 @@ int Employee::getScore() const
     return score;
 }
 
-//**member functions**//
 void Employee::learnSkill(const Skill skill)
 {
     if (score < skill.getRequiredPoints()) {
@@ -39,7 +37,7 @@ void Employee::learnSkill(const Skill skill)
 void Employee::forgetSkill(const int skill_id)
 {
     Skill temp(skill_id, " ", 0);
-    unsigned int set_result = skill_set.erase(temp); /// לבדוק אם זה שימוש נכון בערך החזרה
+    unsigned int set_result = skill_set.erase(temp);
     if (set_result != 1) {
         throw DidNotLearnSkill();
     }
@@ -84,7 +82,7 @@ ostream& Employee::printShort(ostream& os)
 
 ostream& Employee::printLong(ostream& os)
 {
-    os << getFirstName() << " " << getLastName() << endl << "id - " << getId() << " birth_year - " << getBirthYear() 
+    os << getFirstName() << " " << getLastName() << endl << "id - " << getId() << " birth_year - " << getBirthYear()
         << endl << "Salary: " << salary << " " << "Score: " << score << " " << "Skills:" << endl;
     std::set<Skill>::iterator it;
     for (it = skill_set.begin(); it != skill_set.end(); ++it) {
