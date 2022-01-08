@@ -3,7 +3,8 @@
 
 #include <exception>
 
-namespace mtm{
+namespace mtm
+{
 
 class Exception : public std::exception
 {};
@@ -38,6 +39,11 @@ class SkillAlreadyLearned : public Exception
 class DidNotLearnSkill : public Exception
 {};
 
-}
+class CitizenAlreadyExists : public Exception
+{};
 
+class EmployeeNotAccepted : public Exception
+{};
+
+}
 #endif /* EXCEPTIONS_H_ */
