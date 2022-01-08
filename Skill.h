@@ -1,16 +1,16 @@
 #ifndef SKILL_H_
 #define SKILL_H_
 
-
-//Implement a Skill class interface
 #include <string>
 #include <iostream>
+
 using std::string;
 using std::ostream;
 using std::endl;
 using std::cout;
 
-namespace mtm{
+namespace mtm
+{
 class Skill
 {
     int id;
@@ -18,10 +18,9 @@ class Skill
     int points_to_acquire_skill;
 
 public:
-    //constructors
-    Skill() = default;
+    //c'tors, d'tor
     Skill(int id, string name, int points_to_acquire_skill);
-    Skill(const Skill& skill);
+    Skill(const Skill& skill) = default;
     ~Skill() = default;
 
     //getters
@@ -29,8 +28,7 @@ public:
     string getName() const;
     int getRequiredPoints() const;
 
-
-    //overloaded operators
+    //operators
     Skill& operator+= (const int points); 
     Skill& operator= (const Skill& skill);
     void operator++(int);
@@ -43,8 +41,6 @@ public:
 
     //class friends
     friend ostream& operator<< (ostream& os, const Skill skill);
-
-
 };
 
 ostream& operator<<(ostream& os, const Skill skill);
