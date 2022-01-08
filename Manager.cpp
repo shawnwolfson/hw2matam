@@ -48,18 +48,6 @@ void Manager::setEmployeeSalary(int emp_id, int wage)
     (*it)->setSalary(wage - ((*it)->getSalary()));
 }
 
-int* Manager::getEmployeesId() const
-{
-    set<Employee*>::iterator iterator;
-    int* id_array = new int[employees_group.size()];
-    int index = 0;
-    for(iterator = employees_group.begin(); iterator != employees_group.end(); iterator++)
-    {
-        id_array[index] = (*iterator)->getId();
-        ++index;
-    }
-    return id_array;
-}
 //**prints**//
 ostream& Manager::printShort(ostream& os)
 {
