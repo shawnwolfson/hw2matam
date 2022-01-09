@@ -88,7 +88,7 @@ void Workplace::fireManager(int id)
     }
     set<Employee*>::iterator employees_it;
     int* id_array = (*managers_it)->getEmployeesId();
-    for(unsigned int index = 0; index < ((sizeof(id_array)) / sizeof(int)); ++index)
+    for(unsigned int index = 0; index < ((sizeof(*id_array)) / sizeof(int)); ++index)
     {
         fireEmployee(id_array[index], id);
     }
@@ -116,7 +116,7 @@ ostream& mtm::operator<<(ostream& os, const Workplace workplace)
 
 
 
-class Condition{
+/*class Condition{
 public:
     bool operator()(Employee* emp){
     return emp->getId()>0;
@@ -147,7 +147,7 @@ int main() {
     delete e1;
     delete e2;
     delete m1;
-    /*cout << "------------------" << endl;
+    cout << "------------------" << endl;
     cout << Meta.getId() << endl;
     cout << Meta.getName() << endl;
     cout << Meta.getWorkersSalary() << endl;
@@ -162,8 +162,7 @@ int main() {
     try
     {
         Meta.hireEmployee(condition2 , e4, 7);
-    }
-    catch(EmployeeNotSelected)
+    } catch(EmployeeNotSelected& exc )
     {
         cout << "catch1" << endl;
     }
@@ -171,7 +170,7 @@ int main() {
     try{
         Meta.hireEmployee(condition2 , e3, 200);
     }
-    catch(ManagerIsNotHired)
+    catch(ManagerIsNotHired&)
     {
         cout << "catch2" << endl;
     }
@@ -179,7 +178,7 @@ int main() {
     {
         Meta.hireEmployee(condition2, e3, 7);
     }
-    catch(EmployeeAlreadyHired)
+    catch(EmployeeAlreadyHired&)
     {
         cout << "catch3" << endl;
     }
@@ -187,7 +186,7 @@ int main() {
     {
         Meta.hireManager(m2);
     }
-    catch(ManagerAlreadyHired)
+    catch(ManagerAlreadyHired&)
     {
         cout << "catch4" << endl;
     }
@@ -195,7 +194,7 @@ int main() {
     {
         Meta.fireEmployee(4,7);
     }
-    catch(EmployeeIsNotHired)
+    catch(EmployeeIsNotHired&)
     {
         cout << "catch5" << endl;
     }
@@ -203,7 +202,7 @@ int main() {
     {
         Meta.fireEmployee(3,100);
     }
-    catch(ManagerIsNotHired)
+    catch(ManagerIsNotHired&)
     {
         cout << "catch6" << endl;
     }
@@ -211,20 +210,20 @@ int main() {
     {
         Meta.fireManager(600);
     }
-    catch(ManagerIsNotHired)
+    catch(ManagerIsNotHired&)
     {
         cout << "catch7" << endl;
     }
     Workplace Google(2,"Google", 10000, 20000);
     try{
         Google.hireManager(m2);
-    }
-    catch(CanNotHireManager)
+    } catch(CanNotHireManager&) 
     {
         cout << "catch8" << endl;
     }
+    //cout << "here" << endl;
     Meta.fireManager(7);
     cout << Meta;
-    cout << Google;*/
+    cout << Google;
     return 0;
-}
+}*/
