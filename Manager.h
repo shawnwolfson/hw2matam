@@ -5,10 +5,13 @@
 #include "Employee.h"
 #include <set>
 #include <iostream>
+#include <vector>
 
+using std::vector;
 using std::ostream;
 using std::string;
 using std::set;
+using std::endl;
 
 namespace mtm
 {
@@ -21,6 +24,7 @@ public:
         return ((*emp1).getId() < (*emp2).getId());
     }
 };
+
 
 class Manager : public Citizen
 {
@@ -38,11 +42,17 @@ public:
     void addEmployee(Employee* employee);
     void removeEmployee(int id);
     void setEmployeeSalary(int emp_id, int wage);
+    vector<int> getEmployeesId() const;
+    bool hasEmployees() const;
+
 
     ostream& printShort(ostream& os) override;
     ostream& printLong(ostream& os) override;
     Manager* clone() const;
+
 };
+
+
 
 }
 #endif /* MANAGER_H_ */
