@@ -4,6 +4,21 @@
 
 using namespace mtm;
 
+void Workplace::emptyEmployeeGroup(int manager_id)
+{
+    Manager temp_manager(manager_id, "", "", 0);
+    set<Manager*>::iterator managers_it;
+    managers_it = managers_group.find(&temp_manager);   
+    set<Employee*>::iterator employees_it;
+    int* id_array = (*managers_it)->getEmployeesId();
+    for(unsigned int index = 0; index < ((sizeof(*id_array)) / sizeof(int)); ++index)
+    {
+        fireEmployee(id_array[index], id);
+    }
+    delete[] id_array;
+}
+
+
 
 //c'tor
 Workplace::Workplace(int id, string name, int employee_salary, int manager_salary, set<Manager*> managers_group) :
@@ -86,15 +101,8 @@ void Workplace::fireManager(int id)
     {
         throw ManagerIsNotHired();
     }
-    set<Employee*>::iterator employees_it;
-    int* id_array = (*managers_it)->getEmployeesId();
-    for(unsigned int index = 0; index < ((sizeof(*id_array)) / sizeof(int)); ++index)
-    {
-        fireEmployee(id_array[index], id);
-    }
     (*managers_it)->setSalary(-manager_salary);
     managers_group.erase(&temp_manager);
-    delete[] id_array;
 }
 
 ostream& mtm::operator<<(ostream& os, const Workplace workplace)
@@ -227,3 +235,36 @@ int main() {
     cout << Google;
     return 0;
 }*/
+
+class Condition{
+public:
+    bool operator()(Employee* emp){
+    return emp->getId()>0;
+    }
+};
+
+
+int main()
+{
+    Workplace Meta(1,"Meta", 10000, 20000);
+    Manager* m1 = new Manager(10,"Robert", "stark", 1980);
+    Employee* e1 = new Employee(100, "John", "Williams", 2002);
+    Meta.hireManager(m1);
+    Condition condition;
+    Meta.hireEmployee(condition, e1, m1->getId());
+    cout << Meta << endl;
+    Meta.fireManager(m1->getId());
+    cout<< Meta << endl;
+    Meta.hireManager(m1);
+    cout<< Meta << endl;
+    Manager* m2 = new Manager(20, "Shawn", "Wolfson", 1999);
+    Meta.hireManager(m2);
+    Meta.hireEmployee(condition, e1, 20);
+    cout << Meta << endl;
+    Meta.fireEmployee(100, 20);
+    cout << Meta << endl;
+    delete m1;
+    delete e1;
+    delete m2;
+    return 0;
+}
