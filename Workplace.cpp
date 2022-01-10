@@ -244,7 +244,7 @@ public:
 };
 
 
-int main()
+/*int main()
 {
     Workplace Meta(1,"Meta", 10000, 20000);
     Manager* m1 = new Manager(10,"Robert", "stark", 1980);
@@ -267,4 +267,4 @@ int main()
     delete e1;
     delete m2;
     return 0;
-}
+}*/
