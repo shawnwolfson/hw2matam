@@ -42,7 +42,8 @@ class Workplace
         void fireEmployee(int employee_id, int manager_id);
         void fireManager(int id);
         void emptyEmployeeGroup(int manager_id);
-
+        Manager* findManagerInWorkplace(int id) const;
+        void changeSalaryForAllEmployeesUnderManager(Manager* manager, int wage);
         //class friends
         friend ostream& operator<<(ostream& os, const Workplace workplace);
 };
