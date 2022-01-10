@@ -1,6 +1,6 @@
 #include "Manager.h"
 #include "exceptions.h"
-using std::endl;
+
 using namespace mtm;
 
 Manager::Manager(int id, string first_name, string last_name, int birth_year) : 
@@ -45,9 +45,24 @@ void Manager::setEmployeeSalary(int emp_id, int wage)
     }
     std::set<Employee*>::iterator it;
     it = employees_group.find(&temp);
-    (*it)->setSalary(wage - ((*it)->getSalary()));
+    (*it)->setSalary(wage);
 }
 
+vector<int> Manager::getEmployeesId() const
+{
+    set<Employee*>::iterator iterator;
+    vector<int> id_vector;
+    for(iterator = employees_group.begin(); iterator != employees_group.end(); iterator++)
+    {
+      id_vector.push_back((*iterator)->getId());
+    }
+    return id_vector;
+}
+
+bool Manager::hasEmployees() const
+{
+    return !(employees_group.empty());
+}
 //**prints**//
 ostream& Manager::printShort(ostream& os)
 {
@@ -65,11 +80,7 @@ ostream& printLongAux(ostream& os, Employee emp)
 ostream& Manager::printLong(ostream& os)
 {
     os << getFirstName() << " " << getLastName() << endl << "id - " << getId() << " birth_year - " << getBirthYear() 
-        << endl << "Salary: " << salary << endl;
-    if (!employees_group.empty())
-    {
-        os << "Employees:" << endl;
-    }
+        << endl << "Salary: " << salary << endl << "Employees:" << endl;
     std::set<Employee*>::iterator it;
     for (it=employees_group.begin(); it!=employees_group.end(); ++it) {
         printLongAux(os, (*(*it)));
