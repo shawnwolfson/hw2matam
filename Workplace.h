@@ -41,13 +41,14 @@ class Workplace
         void hireManager(Manager* Manager);
         void fireEmployee(int employee_id, int manager_id);
         void fireManager(int id);
-
+        void emptyEmployeeGroup(int manager_id);
 
         //class friends
         friend ostream& operator<<(ostream& os, const Workplace workplace);
 };
 
 ostream& operator<<(ostream& os, const Workplace workplace);
+
 }
 
 #endif /* WORKPLACE_H_ */
