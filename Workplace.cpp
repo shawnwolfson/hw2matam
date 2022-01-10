@@ -6,20 +6,37 @@ using namespace mtm;
 
 void Workplace::emptyEmployeeGroup(int manager_id)
 {
-    Manager temp_manager(manager_id, "", "", 0);
-    set<Manager*>::iterator managers_it;
-    managers_it = managers_group.find(&temp_manager);   
-    set<Employee*>::iterator employees_it;
-    int* id_array = (*managers_it)->getEmployeesId();
-    for(unsigned int index = 0; index < ((sizeof(*id_array)) / sizeof(int)); ++index)
+    Manager* manager = findManagerInWorkplace(manager_id);
+    vector<int> id_array = manager->getEmployeesId();
+    for(int index = 0; index < id_array.size(); ++index)
     {
         fireEmployee(id_array[index], id);
     }
-    delete[] id_array;
 }
 
+Manager* Workplace::findManagerInWorkplace(int id) const
+{
+    Manager temp_manager(id, "", "", 0);
+    set<Manager*>::iterator managers_it;
+    managers_it = managers_group.find(&temp_manager);
+    if(managers_it == managers_group.end())
+    {
+        throw ManagerIsNotHired();
+    }
+    return (*managers_it);
+}
 
-
+void Workplace::changeSalaryForAllEmployeesUnderManager(Manager* manager, int wage)
+{
+    if(manager->hasEmployees())
+    {
+        vector<int> id_array = manager->getEmployeesId();
+        for(unsigned int index = 0; index < id_array.size(); ++index)
+        {
+            manager->setEmployeeSalary(id_array[index], wage);
+        }
+    } 
+}
 //c'tor
 Workplace::Workplace(int id, string name, int employee_salary, int manager_salary, set<Manager*> managers_group) :
                     id(id), name(name), employee_salary(employee_salary), manager_salary(manager_salary), managers_group()
@@ -53,14 +70,8 @@ void Workplace::hireEmployee(T condition, Employee* employee, int manager_id)
     {
         throw EmployeeNotSelected();
     }
-    Manager temp(manager_id, "", "", 0);
-    set<Manager*>::iterator managers_it;
-    managers_it = managers_group.find(&temp);
-    if(managers_it == managers_group.end())
-    {
-        throw ManagerIsNotHired();
-    }
-    (*managers_it)->addEmployee(employee);
+    Manager* manager = findManagerInWorkplace(manager_id);
+    manager->addEmployee(employee);
     employee->setSalary(employee_salary);
 }
 
@@ -75,34 +86,24 @@ void Workplace::hireManager(Manager* manager)
     {
         throw CanNotHireManager();
     }
+    changeSalaryForAllEmployeesUnderManager(manager, employee_salary);
     manager->setSalary(manager_salary);
     managers_group.insert(manager);
 }
 
 void Workplace::fireEmployee(int employee_id, int manager_id)
 {
-    Manager temp_manager(manager_id, "", "", 0);
-    set<Manager*>::iterator managers_it;
-    managers_it = managers_group.find(&temp_manager);
-    if((managers_it) == managers_group.end())
-    {
-        throw ManagerIsNotHired();
-    }
-    (*managers_it)->setEmployeeSalary(employee_id, employee_salary);
-    (*managers_it)->removeEmployee(employee_id);
+    Manager* manager = findManagerInWorkplace(manager_id);
+    manager->setEmployeeSalary(employee_id, -employee_salary);
+    manager->removeEmployee(employee_id);
 }
 
 void Workplace::fireManager(int id)
 {
-    Manager temp_manager(id, "", "", 0);
-    set<Manager*>::iterator managers_it;
-    managers_it = managers_group.find(&temp_manager);
-    if((managers_it) == managers_group.end())
-    {
-        throw ManagerIsNotHired();
-    }
-    (*managers_it)->setSalary(-manager_salary);
-    managers_group.erase(&temp_manager);
+    Manager* manager = findManagerInWorkplace(id);
+    changeSalaryForAllEmployeesUnderManager(manager, -employee_salary);
+    manager->setSalary(-manager_salary);
+    managers_group.erase(manager);
 }
 
 ostream& mtm::operator<<(ostream& os, const Workplace workplace)
@@ -122,7 +123,32 @@ ostream& mtm::operator<<(ostream& os, const Workplace workplace)
     return os;
 }
 
+/*class Condition{
+public:
+    bool operator()(Employee* emp){
+    return emp->getId()>0;
+    }
+};
 
+
+int main()
+{
+    Workplace Meta(1,"Meta", 10000, 20000);
+    Manager* m1 = new Manager(10,"Robert", "stark", 1980);
+    Employee* e1 = new Employee(100, "John", "Williams", 2002);
+    Meta.hireManager(m1);
+    Condition condition;
+    Meta.hireEmployee(condition, e1, m1->getId());
+    cout << Meta << endl;
+    Meta.fireManager(m1->getId());
+    cout<< Meta << endl;
+    cout<< "--salary--" << e1->getSalary() << endl;
+    Meta.hireManager(m1);
+    cout<< "--salary--" << e1->getSalary() << endl;
+    delete m1;
+    delete e1;
+    return 0;
+}*/
 
 /*class Condition{
 public:
@@ -152,15 +178,11 @@ int main() {
     cout << Meta;
     Meta.fireManager(m1->getId());
     cout << Meta;
-    delete e1;
-    delete e2;
-    delete m1;
     cout << "------------------" << endl;
     cout << Meta.getId() << endl;
     cout << Meta.getName() << endl;
     cout << Meta.getWorkersSalary() << endl;
     cout << Meta.getManagersSalary() << endl;
-
     Manager* m2 = new Manager(7, "Max", "Pain", 1500);
     Meta.hireManager(m2);
     Condition2 condition2;
@@ -230,41 +252,20 @@ int main() {
         cout << "catch8" << endl;
     }
     //cout << "here" << endl;
-    Meta.fireManager(7);
-    cout << Meta;
-    cout << Google;
-    return 0;
-}*/
+    Meta.fireManager(m2->getId());
+    cout << Meta<<endl;;
+    cout << Google<<endl;;
 
-class Condition{
-public:
-    bool operator()(Employee* emp){
-    return emp->getId()>0;
-    }
-};
-
-
-/*int main()
-{
-    Workplace Meta(1,"Meta", 10000, 20000);
-    Manager* m1 = new Manager(10,"Robert", "stark", 1980);
-    Employee* e1 = new Employee(100, "John", "Williams", 2002);
     Meta.hireManager(m1);
-    Condition condition;
-    Meta.hireEmployee(condition, e1, m1->getId());
-    cout << Meta << endl;
-    Meta.fireManager(m1->getId());
-    cout<< Meta << endl;
-    Meta.hireManager(m1);
-    cout<< Meta << endl;
-    Manager* m2 = new Manager(20, "Shawn", "Wolfson", 1999);
     Meta.hireManager(m2);
-    Meta.hireEmployee(condition, e1, 20);
-    cout << Meta << endl;
-    Meta.fireEmployee(100, 20);
-    cout << Meta << endl;
-    delete m1;
+    Meta.hireEmployee(condition, e1, m2->getId());
+    cout << Meta <<endl;
     delete e1;
+    delete e2;
+    delete m1;
     delete m2;
+    delete e3;
+    delete e4;
     return 0;
 }*/
+
