@@ -48,6 +48,8 @@ public:
      std::shared_ptr<int> ptr(new int(x));
      values.push_back(ptr);
      }
+     ~A() = default;
+
 };
 
 
