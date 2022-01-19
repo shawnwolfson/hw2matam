@@ -77,7 +77,7 @@ def check_if_similar(strings_to_check):
                 return False
         switched_paires_dict[iteratable_string[index]] = static_string[index]
     return True
-
+#The requested function
 def check_match(str):
     if(str == ""):
         return True
